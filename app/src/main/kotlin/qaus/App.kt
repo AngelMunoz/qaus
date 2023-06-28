@@ -6,39 +6,40 @@ package qaus
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 import qaus.tags.*
-//@HtmlTagMarker
-//inline fun SectioningOrFlowContent.card(noinline cardHeader: (HEADER.() -> Unit)? = null, noinline cardFooter: (FOOTER.() -> Unit)? = null, crossinline content: SECTION.() -> Unit) {
-//    article {
-//        classes = setOf("card")
-//        if (cardHeader != null) {
-//            header {
-//                classes = setOf("card-header")
-//                cardHeader()
-//            }
-//        }
-//        section {
-//            classes = setOf("card-content")
-//            content()
-//        }
-//        if (cardFooter != null) {
-//            footer {
-//                classes = setOf("card-footer")
-//                cardFooter()
-//            }
-//        }
-//    }
-//}
+
+fun FlowContent.aCardHeader(cardHeaderClasses: String?, block: HEADER.() -> Unit) {
+    header {
+        classes = setOf(cardHeaderClasses.orEmpty())
+        block()
+    }
+}
 
 fun Index(): String {
     return buildString {
         appendHTML().html {
             head {}
             body {
-                card(cardHeader = {
-                    classes += setOf("olv")
-                    h1 { +"With Header!" }
-                }) {
+                header {
+                    h1 { +"This is a test!" }
+                }
+                card {
+                    cardHeader {
+                        h1 { +"Hello World!" }
+                    }
                     p { +"Hello Card!" }
+                }
+                card {
+                    cardHeader {
+                        h1 { +"Hello World!" }
+                    }
+                    p { +"Hello Card!" }
+                    cardFooter {
+                        p { +"This is part of the footer!" }
+                        ul {
+                            li { +"This is an item!" }
+                            li { +"This too!" }
+                        }
+                    }
                 }
             }
         }
